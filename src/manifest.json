@@ -1,12 +1,12 @@
 {
-	"name": "ExamplePlugin",
-	"description": "Example Enmity plugin",
+	"name": "AccountSwitcher",
+	"description": "Switcher accounts with your token.",
 	"authors": [
 		{
-			"name": "Zoey",
-			"id": "89117667050426368"
+			"name": "dia ♡",
+			"id": "696828906191454221"
 		}
 	],
 	"version": "1.0.0",
-	"color": "#FFFFFF"
+	"color": "#A0939D"
 }
