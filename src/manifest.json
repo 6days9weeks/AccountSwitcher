@@ -1,12 +1,12 @@
 {
-	"name": "AccountSwitcher",
-	"description": "Switcher accounts with your token.",
-	"authors": [
-		{
-			"name": "dia ♡",
-			"id": "696828906191454221"
-		}
-	],
-	"version": "1.0.0",
-	"color": "#A0939D"
+  "name": "AccountSwitcher",
+  "description": "Switcher accounts with your token.",
+  "authors": [
+    {
+      "name": "dia ♡",
+      "id": "696828906191454221"
+    }
+  ],
+  "version": "1.0.0",
+  "color": "#A0939D"
 }

@@ -1,11 +1,17 @@
-import { Command, EnmitySectionID, ApplicationCommandInputType, ApplicationCommandOptionType, ApplicationCommandType } from "enmity-api/commands";
+import {
+  Command,
+  EnmitySectionID,
+  ApplicationCommandInputType,
+  ApplicationCommandOptionType,
+  ApplicationCommandType,
+} from "enmity-api/commands";
 import { Plugin, registerPlugin } from "enmity-api/plugins";
 import { getByProps } from "enmity-api/modules";
 import { getItem, setItem } from "enmity-api/storage";
 import { sendReply } from "enmity-api/clyde";
 import Manifest from "./manifest.json";
 
-const loginToken = getByProps("loginToken").loginToken
+const loginToken = getByProps("loginToken").loginToken;
 
 const AccountSwitcher: Plugin = {
   ...Manifest,
@@ -22,10 +28,10 @@ const AccountSwitcher: Plugin = {
 
       description: "Adds an account to the list.",
       displayDescription: "Account Switcher Moment",
-      
+
       type: ApplicationCommandType.Chat,
       inputType: ApplicationCommandInputType.BuiltInText,
-      
+
       options: [
         {
           name: "name",
@@ -33,9 +39,9 @@ const AccountSwitcher: Plugin = {
 
           description: "Name of the account",
           displayDescription: "Name of the account",
-          
+
           type: ApplicationCommandOptionType.String,
-          required: true
+          required: true,
         },
         {
           name: "token",
@@ -43,24 +49,23 @@ const AccountSwitcher: Plugin = {
           description: "Token of the account",
           displayDescription: "Token of the account",
           type: ApplicationCommandOptionType.String,
-          required: true
-        }
+          required: true,
+        },
       ],
-    
+
       execute: async function (args, message) {
         const name = args[0].value;
         let accounts = await getItem("accounts");
         const token = args[1].value;
-        await setItem(name, token)
+        await setItem(name, token);
         if (accounts == null) {
           await setItem("accounts", name);
         } else {
-          await setItem("accounts", accounts += `:${name}`);
+          await setItem("accounts", (accounts += `:${name}`));
         }
-        sendReply(message.channel.id, `Added the account ${name}`)
-
-      }
-    }
+        sendReply(message.channel.id, `Added the account ${name}`);
+      },
+    };
 
     const list_account_command: Command = {
       id: "list_account_command",
@@ -72,12 +77,14 @@ const AccountSwitcher: Plugin = {
       type: ApplicationCommandType.Chat,
       inputType: ApplicationCommandInputType.BuiltInText,
       execute: async function (args, message) {
-        let accounts = await getItem("accounts");
+        const accounts = await getItem("accounts");
         if (accounts == null) {
           sendReply(message.channel.id, "No accounts added yet.");
         } else {
-          let content = '**Accounts:**\n';
-          accounts.split(":").forEach(account => {content += `${account}\n`});
+          let content = "**Accounts:**\n";
+          accounts.split(":").forEach((account) => {
+            content += `${account}\n`;
+          });
           sendReply(message.channel.id, content);
         }
       },
@@ -92,10 +99,10 @@ const AccountSwitcher: Plugin = {
 
       description: "switch accounts easily",
       displayDescription: "switch accounts easily",
-      
+
       type: ApplicationCommandType.Chat,
       inputType: ApplicationCommandInputType.BuiltInText,
-      
+
       options: [
         {
           name: "name",
@@ -103,24 +110,27 @@ const AccountSwitcher: Plugin = {
 
           description: "Name of the account",
           displayDescription: "Name of the account",
-          
+
           type: ApplicationCommandOptionType.String,
-          required: true
-        }
+          required: true,
+        },
       ],
-    
+
       execute: async function (args, message) {
         const name = args[0].value;
         const token = await getItem(name);
         if (token != null) {
-          sendReply(message.channel.id, "Close and reopen the app to switch accounts.")
-          await new Promise(f => setTimeout(f, 1000));
-          await loginToken(token)
+          sendReply(
+            message.channel.id,
+            "Close and reopen the app to switch accounts."
+          );
+          await new Promise((f) => setTimeout(f, 1000));
+          await loginToken(token);
         } else {
-          sendReply(message.channel.id, "Account not found.")
+          sendReply(message.channel.id, "Account not found.");
         }
-      }
-    }
+      },
+    };
 
     this.commands.push(add_account_token);
     this.commands.push(switch_account_command);
@@ -129,7 +139,7 @@ const AccountSwitcher: Plugin = {
 
   onStop() {
     this.commands = [];
-  }
-}
+  },
+};
 
 registerPlugin(AccountSwitcher);
